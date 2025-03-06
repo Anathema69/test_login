@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Descargar Reportes</title>
+    <link rel="stylesheet" href="download-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+</head>
+<body>
+
+<!-- Contenedor principal -->
+<div class="download-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Panel de Admin</h2>
+        <nav>
+            <ul>
+                <li><button onclick="window.location.href='admin-panel.html'"><img src="icon/panel_new_user.png" alt="Usuarios">Crear nuevos usuarios</button></li>
+                <li><button class="active"><img src="icon/panel_download.png" alt="Descargas">Descargar reportes</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="download-content">
+        <!-- Banner superior -->
+        <header class="download-header">
+            <h1>Descargar Reportes</h1>
+        </header>
+
+        <!-- Sección de filtros y descarga -->
+        <section class="download-section">
+            <h2>Seleccionar Usuarios y Rango de Fechas</h2>
+            <form class="download-form">
+                <label for="usuarios">Seleccionar Usuarios:</label>
+                <select id="usuarios" class="styled-select" multiple>
+                    <option value="usuario1">Usuario 1</option>
+                    <option value="usuario2">Usuario 2</option>
+                    <option value="usuario3">Usuario 3</option>
+                </select>
+
+                <label for="fechaInicio">Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" class="date-input">
+
+                <label for="fechaFin">Fecha Fin:</label>
+                <input type="date" id="fechaFin" class="date-input">
+
+                <button type="submit" class="btn-primary">Descargar Reporte</button>
+            </form>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>

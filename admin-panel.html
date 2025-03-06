@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+</head>
+<body>
+
+<!-- Contenedor principal -->
+<div class="admin-container">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+        <h2>Panel de Admin</h2>
+        <nav>
+            <ul>
+                <li><button class="active" id="crearUsuariosBtn"><img src="icon/panel_new_user.png" class="sidebar-icon" alt="Crear Usuario">Crear nuevos usuarios</button></li>
+                <li><button id="descargarReportesBtn"><img src="icon/panel_download.png" class="sidebar-icon" alt="Descargar Reportes">Descargar reportes</button></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="admin-content">
+        <!-- Banner superior -->
+        <header class="admin-header">
+            <h1>Bienvenido admin-{nombre}</h1>
+            <button class="btn-logout">Cerrar sesión</button>
+        </header>
+
+        <!-- Sección de contenido dinámico -->
+        <section class="admin-section" id="crearUsuarios">
+            <h2>Registrar Nuevo Usuario</h2>
+            <form class="admin-form">
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/user.png" alt="User icon">
+          </span>
+                    <input type="text" placeholder="Nombre completo">
+                </div>
+
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/mail.png" alt="Mail icon">
+          </span>
+                    <input type="email" placeholder="Correo electrónico">
+                </div>
+
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/pass.png" alt="Password icon">
+          </span>
+                    <input type="password" placeholder="Crea una contraseña">
+                </div>
+
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/settings_new_user.png" alt="Role icon">
+          </span>
+                    <select class="styled-select">
+                        <option value="user">Usuario</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-primary">Registrar</button>
+            </form>
+        </section>
+    </main>
+</div>
+
+<!-- Script para manejar la navegación -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const crearUsuariosBtn = document.getElementById('crearUsuariosBtn');
+        const descargarReportesBtn = document.getElementById('descargarReportesBtn');
+
+        crearUsuariosBtn.addEventListener('click', () => {
+            window.location.href = 'admin-panel.html';
+        });
+
+        descargarReportesBtn.addEventListener('click', () => {
+            window.location.href = 'download-panel.html';
+        });
+    });
+</script>
+
+</body>
+</html>
