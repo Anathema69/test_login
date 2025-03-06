@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Usuario</title>
+    <link rel="stylesheet" href="user-panel-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap">
+</head>
+<body>
+
+<!-- Contenedor principal -->
+<div class="user-container">
+
+    <!-- Barra lateral / Sidebar -->
+    <aside class="user-sidebar">
+        <h2>Panel de Usuario</h2>
+        <nav>
+            <ul>
+                <li>
+                    <button class="active" id="btnDatos">
+                        <img src="icon/panel_new_user.png" class="sidebar-icon" alt="Datos complementarios">
+                        Datos complementarios
+                    </button>
+                </li>
+                <li>
+                    <button id="btnOperaciones">
+                        <img src="icon/panel_download.png" class="sidebar-icon" alt="Registrar operaciones">
+                        Registrar operaciones
+                    </button>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main class="user-content">
+        <!-- Header fijo arriba -->
+        <header class="user-header">
+            <h1>Bienvenido user-{nombre}</h1>
+            <button class="btn-logout">Cerrar sesión</button>
+        </header>
+
+        <!-- Sección de datos complementarios, centrada y flotante -->
+        <section class="user-section">
+            <h2>Datos Complementarios</h2>
+            <form class="user-form" id="datosForm">
+                <!-- Teléfono -->
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/user.png" alt="User icon">
+          </span>
+                    <input type="tel" placeholder="Teléfono" required>
+                </div>
+
+                <!-- Tipo de moneda -->
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/settings_new_user.png" alt="Moneda icon">
+          </span>
+                    <select class="styled-select" required>
+                        <option value="">Selecciona tu moneda</option>
+                        <option value="MXN">Peso Mexicano (MXN)</option>
+                        <option value="USD">Dólar Estadounidense (USD)</option>
+                        <option value="EUR">Euro (EUR)</option>
+                    </select>
+                </div>
+
+                <!-- Número de cuenta -->
+                <div class="input-group">
+          <span class="icon">
+            <img src="icon/pass.png" alt="Cuenta icon">
+          </span>
+                    <input type="text" placeholder="Número de cuenta" required>
+                </div>
+
+                <!-- Botón Actualizar -->
+                <button type="submit" class="btn-primary">Actualizar datos</button>
+            </form>
+        </section>
+    </main>
+</div>
+
+<!-- Overlay de carga y spinner -->
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>Actualizando datos...</p>
+</div>
+
+<!-- Toast de notificación -->
+<div id="toast" class="toast" style="display: none;">
+    <span id="toastMessage"></span>
+</div>
+
+<!-- Script para navegación y simulación de actualización -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btnDatos = document.getElementById('btnDatos');
+        const btnOperaciones = document.getElementById('btnOperaciones');
+        const datosForm = document.getElementById('datosForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        // Botón del sidebar para ir a la misma página (Datos complementarios)
+        btnDatos.addEventListener('click', () => {
+            window.location.href = 'user-panel.html';
+        });
+
+        // Botón del sidebar para ir a la página de operaciones
+        btnOperaciones.addEventListener('click', () => {
+            window.location.href = 'user-operations.html';
+        });
+
+        // Al enviar el formulario de datos complementarios
+        datosForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Mostrar overlay de carga
+            loadingOverlay.style.display = 'flex';
+
+            // Simular 2 segundos
+            setTimeout(() => {
+                // Ocultar overlay
+                loadingOverlay.style.display = 'none';
+
+                // Mostrar notificación (toast)
+                toastMessage.textContent = 'Datos actualizados con éxito';
+                toast.style.display = 'block';
+                toast.classList.add('show-toast');
+
+                // Ocultar el toast luego de 3 segundos
+                setTimeout(() => {
+                    toast.classList.remove('show-toast');
+                    toast.style.display = 'none';
+                }, 3000);
+
+                // (Opcional) limpiar el formulario
+                datosForm.reset();
+            }, 2000);
+        });
+    });
+</script>
+
+</body>
+</html>

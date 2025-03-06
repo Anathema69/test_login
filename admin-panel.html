@@ -12,48 +12,60 @@
 
 <!-- Contenedor principal -->
 <div class="admin-container">
-    <!-- Sidebar -->
+
+    <!-- Barra lateral / Sidebar -->
     <aside class="admin-sidebar">
         <h2>Panel de Admin</h2>
         <nav>
             <ul>
-                <li><button class="active" id="crearUsuariosBtn"><img src="icon/panel_new_user.png" class="sidebar-icon" alt="Crear Usuario">Crear nuevos usuarios</button></li>
-                <li><button id="descargarReportesBtn"><img src="icon/panel_download.png" class="sidebar-icon" alt="Descargar Reportes">Descargar reportes</button></li>
+                <li>
+                    <button class="active" id="crearUsuariosBtn">
+                        <img src="icon/panel_new_user.png" class="sidebar-icon" alt="Crear Usuario">
+                        Crear nuevos usuarios
+                    </button>
+                </li>
+                <li>
+                    <button id="descargarReportesBtn">
+                        <img src="icon/panel_download.png" class="sidebar-icon" alt="Descargar Reportes">
+                        Descargar reportes
+                    </button>
+                </li>
             </ul>
         </nav>
     </aside>
 
     <!-- Contenido principal -->
     <main class="admin-content">
-        <!-- Banner superior -->
+
+        <!-- Header fijo arriba -->
         <header class="admin-header">
             <h1>Bienvenido admin-{nombre}</h1>
             <button class="btn-logout">Cerrar sesión</button>
         </header>
 
-        <!-- Sección de contenido dinámico -->
+        <!-- Sección de creación de usuarios, centrada y flotante -->
         <section class="admin-section" id="crearUsuarios">
             <h2>Registrar Nuevo Usuario</h2>
-            <form class="admin-form">
+            <form class="admin-form" id="registerForm">
                 <div class="input-group">
           <span class="icon">
             <img src="icon/user.png" alt="User icon">
           </span>
-                    <input type="text" placeholder="Nombre completo">
+                    <input type="text" placeholder="Nombre completo" required>
                 </div>
 
                 <div class="input-group">
           <span class="icon">
             <img src="icon/mail.png" alt="Mail icon">
           </span>
-                    <input type="email" placeholder="Correo electrónico">
+                    <input type="email" placeholder="Correo electrónico" required>
                 </div>
 
                 <div class="input-group">
           <span class="icon">
             <img src="icon/pass.png" alt="Password icon">
           </span>
-                    <input type="password" placeholder="Crea una contraseña">
+                    <input type="password" placeholder="Crea una contraseña" required>
                 </div>
 
                 <div class="input-group">
@@ -69,10 +81,22 @@
                 <button type="submit" class="btn-primary">Registrar</button>
             </form>
         </section>
+
     </main>
 </div>
 
-<!-- Script para manejar la navegación -->
+<!-- Overlay de carga y spinner -->
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>Registrando usuario...</p>
+</div>
+
+<!-- Toast de notificación -->
+<div id="toast" class="toast" style="display: none;">
+    <span id="toastMessage"></span>
+</div>
+
+<!-- Script para navegación y simulación de registro -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const crearUsuariosBtn = document.getElementById('crearUsuariosBtn');
@@ -83,7 +107,41 @@
         });
 
         descargarReportesBtn.addEventListener('click', () => {
+            // Redirige a download-panel.html
             window.location.href = 'download-panel.html';
+        });
+
+        // Manejo del formulario de registro
+        const registerForm = document.getElementById('registerForm');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+
+        registerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Mostrar overlay de carga
+            loadingOverlay.style.display = 'flex';
+
+            // Simular una espera de 2 segundos (ej. llamada a la BD)
+            setTimeout(() => {
+                // Ocultar overlay
+                loadingOverlay.style.display = 'none';
+
+                // Mostrar notificación (toast)
+                toastMessage.textContent = 'Usuario registrado con éxito';
+                toast.style.display = 'block';
+                toast.classList.add('show-toast');
+
+                // Ocultar el toast luego de 3 segundos
+                setTimeout(() => {
+                    toast.classList.remove('show-toast');
+                    toast.style.display = 'none';
+                }, 3000);
+
+                // (Opcional) limpiar el formulario
+                registerForm.reset();
+            }, 2000);
         });
     });
 </script>

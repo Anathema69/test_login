@@ -230,7 +230,6 @@ body {
 
 /* Para dispositivos con poca altura (horizontal phone) */
 @media screen and (max-height: 400px) {
-    /* Opcional: reduce padding para aprovechar la poca altura en horizontal */
     .form-container {
         padding: 0.5rem;
     }

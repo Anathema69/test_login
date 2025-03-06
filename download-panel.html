@@ -12,46 +12,193 @@
 
 <!-- Contenedor principal -->
 <div class="download-container">
-    <!-- Sidebar -->
+
+    <!-- Barra lateral -->
     <aside class="sidebar">
         <h2>Panel de Admin</h2>
         <nav>
             <ul>
-                <li><button onclick="window.location.href='admin-panel.html'"><img src="icon/panel_new_user.png" alt="Usuarios">Crear nuevos usuarios</button></li>
-                <li><button class="active"><img src="icon/panel_download.png" alt="Descargas">Descargar reportes</button></li>
+                <li>
+                    <button onclick="window.location.href='admin-panel.html'">
+                        <img src="icon/panel_new_user.png" alt="Usuarios" class="sidebar-icon">
+                        Crear nuevos usuarios
+                    </button>
+                </li>
+                <li>
+                    <button class="active">
+                        <img src="icon/panel_download.png" alt="Descargas" class="sidebar-icon">
+                        Descargar reportes
+                    </button>
+                </li>
             </ul>
         </nav>
     </aside>
 
     <!-- Contenido principal -->
     <main class="download-content">
-        <!-- Banner superior -->
-        <header class="download-header">
-            <h1>Descargar Reportes</h1>
+
+        <!-- Header fijo arriba -->
+        <header class="admin-header">
+            <h1>Bienvenido admin-{nombre}</h1>
+            <button class="btn-logout">Cerrar sesión</button>
         </header>
 
-        <!-- Sección de filtros y descarga -->
+        <!-- Sección de filtros y descarga, centrada y flotante -->
         <section class="download-section">
-            <h2>Seleccionar Usuarios y Rango de Fechas</h2>
-            <form class="download-form">
-                <label for="usuarios">Seleccionar Usuarios:</label>
-                <select id="usuarios" class="styled-select" multiple>
-                    <option value="usuario1">Usuario 1</option>
-                    <option value="usuario2">Usuario 2</option>
-                    <option value="usuario3">Usuario 3</option>
-                </select>
+            <h2>Descargar Reportes</h2>
+            <form class="download-form" id="downloadForm">
 
-                <label for="fechaInicio">Fecha Inicio:</label>
-                <input type="date" id="fechaInicio" class="date-input">
+                <!-- Campo de búsqueda -->
+                <label class="label-usuarios">Buscar usuarios:</label>
+                <input
+                        type="text"
+                        class="search-input"
+                        id="searchUser"
+                        placeholder="Escribe para filtrar usuarios..."
+                >
 
-                <label for="fechaFin">Fecha Fin:</label>
-                <input type="date" id="fechaFin" class="date-input">
+                <!-- Checkboxes con muchos usuarios (ejemplo) -->
+                <label class="label-usuarios">Seleccionar Usuarios:</label>
+                <!-- "Seleccionar todos" -->
+                <label class="checkbox-container">
+                    <input type="checkbox" id="selectAllUsers">
+                    <span>Seleccionar todos</span>
+                </label>
 
-                <button type="submit" class="btn-primary">Descargar Reporte</button>
+                <div class="multi-select-container" id="userList">
+                    <!-- Se llenará dinámicamente con JS -->
+                </div>
+
+                <!-- Rango de fechas -->
+                <div class="date-range">
+                    <div class="date-field">
+                        <label for="fechaInicio">Fecha Inicio:</label>
+                        <input type="date" id="fechaInicio" class="date-input">
+                    </div>
+                    <div class="date-field">
+                        <label for="fechaFin">Fecha Fin:</label>
+                        <input type="date" id="fechaFin" class="date-input">
+                    </div>
+                </div>
+
+                <!-- Botón de descarga con ícono -->
+                <button type="submit" class="btn-primary">
+                    <img src="icon/xls_icon.png" alt="XLS Icon" class="btn-icon">
+                    Descargar Reporte
+                </button>
             </form>
         </section>
+
     </main>
 </div>
+
+<!-- Overlay de carga y spinner (mismo estilo que en admin-panel) -->
+<div id="loadingOverlay" class="loading-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p>Generando reporte...</p>
+</div>
+
+<!-- Toast de notificación -->
+<div id="toast" class="toast" style="display: none;">
+    <span id="toastMessage"></span>
+</div>
+
+<!-- Script para manejar selección de usuarios y simulación de descarga -->
+<script>
+    // Generar lista de usuarios (ejemplo con muchos nombres)
+    const users = [
+        'Carlos Hernández', 'María López', 'Juan Pérez', 'Lucía Gutiérrez', 'Miguel Ángel',
+        'Sofía Martínez', 'José Ramírez', 'Ana González', 'Pablo Ortega', 'Laura Flores',
+        'Daniela Muñoz', 'Pedro Castillo', 'Fernanda Rivera', 'Héctor Jiménez', 'Andrés Romero',
+        'Verónica Torres', 'Silvia Durán', 'Sergio Castro', 'Beatriz Navarro', 'Raúl Villalobos',
+        'Alejandro Cruz', 'Mónica Rojas', 'Felipe Cárdenas', 'Valentina Reyes', 'Francisco Luna',
+        'Diana Salazar', 'Eduardo Velázquez', 'Isabel Mendoza', 'Gustavo Campos', 'Adriana Pérez'
+        // ... y así sucesivamente (simulando miles)
+    ];
+
+    // Referencias en DOM
+    const userList = document.getElementById('userList');
+    const searchInput = document.getElementById('searchUser');
+    const selectAllUsers = document.getElementById('selectAllUsers');
+
+    // Overlay y Toast
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+
+    // Carga inicial de usuarios
+    function loadUsers(filterText = '') {
+        userList.innerHTML = '';
+        const lowerFilter = filterText.toLowerCase();
+
+        // Filtrar usuarios
+        const filteredUsers = users.filter(u => u.toLowerCase().includes(lowerFilter));
+
+        // Crear checkboxes
+        filteredUsers.forEach(userName => {
+            const label = document.createElement('label');
+            label.classList.add('checkbox-container');
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+            input.name = 'usuarios';
+            input.value = userName;
+
+            const span = document.createElement('span');
+            span.textContent = userName;
+
+            label.appendChild(input);
+            label.appendChild(span);
+
+            userList.appendChild(label);
+        });
+    }
+
+    // Evento de búsqueda
+    searchInput.addEventListener('input', (e) => {
+        loadUsers(e.target.value);
+        // Cada vez que se filtra, se desmarca "Seleccionar todos"
+        selectAllUsers.checked = false;
+    });
+
+    // Seleccionar / deseleccionar todos
+    selectAllUsers.addEventListener('change', (e) => {
+        const checkboxes = userList.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(chk => {
+            chk.checked = e.target.checked;
+        });
+    });
+
+    // Inicializar con la lista completa
+    loadUsers();
+
+    // Simular descarga al enviar el formulario (igual que el registro en admin-panel)
+    const downloadForm = document.getElementById('downloadForm');
+    downloadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // Mostrar overlay de carga
+        loadingOverlay.style.display = 'flex';
+
+        // Simular 2 segundos de "descarga"
+        setTimeout(() => {
+            // Ocultar overlay
+            loadingOverlay.style.display = 'none';
+
+            // Mostrar notificación (toast)
+            toastMessage.textContent = 'Reporte descargado con éxito';
+            toast.style.display = 'block';
+            toast.classList.add('show-toast');
+
+            // Ocultar el toast luego de 3 segundos
+            setTimeout(() => {
+                toast.classList.remove('show-toast');
+                toast.style.display = 'none';
+            }, 3000);
+
+        }, 2000);
+    });
+</script>
 
 </body>
 </html>
