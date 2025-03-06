@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Minimalista Responsivo</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" >
+</head>
+<body>
+
+<!-- Círculos de fondo con CSS -->
+<div class="circle circle1"></div>
+<div class="circle circle2"></div>
+<div class="circle circle3"></div>
+
+<!-- Sección principal con el formulario y la ilustración -->
+<main>
+  <section class="form-section">
+    <div class="form-container">
+      <!-- Tabs de Login / Sign up -->
+      <div class="form-tabs">
+        <button id="loginTab" class="active-tab">Login</button>
+        <button id="signupTab">Sign up</button>
+      </div>
+
+      <!-- Formulario de Login -->
+      <form class="login-form">
+        <div class="input-group">
+            <span class="icon">
+              <img src="icon/user.png" alt="User icon" />
+            </span>
+          <input type="text" id="email" placeholder="Email o número de teléfono">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">
+              <img src="icon/pass.png" alt="Password icon" />
+            </span>
+          <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <!-- Se ha quitado la sección de "¿Olvidaste tu contraseña?" -->
+
+        <button type="submit" class="btn-primary">Login</button>
+      </form>
+
+      <!-- Formulario de Sign up (oculto por defecto) -->
+      <form class="signup-form" style="display: none;">
+        <div class="input-group">
+            <span class="icon">
+              <img src="icon/user.png" alt="User icon" />
+            </span>
+          <input type="text" placeholder="Nombre completo">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">
+              <img src="icon/mail.png" alt="Mail icon" />
+            </span>
+          <input type="email" placeholder="Correo electrónico">
+        </div>
+
+        <div class="input-group">
+            <span class="icon">
+              <img src="icon/pass.png" alt="Password icon" />
+            </span>
+          <input type="password" placeholder="Crea tu contraseña">
+        </div>
+
+        <button type="submit" class="btn-primary">Crear cuenta</button>
+      </form>
+    </div>
+
+    <!-- Ilustración de la laptop a mayor tamaño -->
+    <div class="illustration-container">
+      <img src="icon/laptop.png" alt="Laptop illustration" />
+    </div>
+  </section>
+</main>
+
+<!-- Script para alternar entre Login y Sign up -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginTab = document.getElementById('loginTab');
+    const signupTab = document.getElementById('signupTab');
+    const loginForm = document.querySelector('.login-form');
+    const signupForm = document.querySelector('.signup-form');
+
+    loginTab.addEventListener('click', () => {
+      loginTab.classList.add('active-tab');
+      signupTab.classList.remove('active-tab');
+      loginForm.style.display = 'block';
+      signupForm.style.display = 'none';
+    });
+
+    signupTab.addEventListener('click', () => {
+      signupTab.classList.add('active-tab');
+      loginTab.classList.remove('active-tab');
+      signupForm.style.display = 'block';
+      loginForm.style.display = 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
